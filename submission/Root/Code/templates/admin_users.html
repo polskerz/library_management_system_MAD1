@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}
+List of Users
+{% endblock %}
+
+{% block body %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+<div class="container">
+    <div class="box" style="font-size: 40px;"><h1>List of Users</h1></div>
+    <div class="spacer" style="width : 50px;"></div>
+    <div class="box">
+        <a href="{{ url_for('admin_users_add') }}" class="btn btn-success">
+            <i class="fas fa-plus"></i>
+            <span style="margin-left: 5px;">Add user</span>
+        </a>
+    </div>
+</div>
+    <div class = "subcontainer " style="padding: 50px;">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>User ID</th>
+                    <th>Username</th>
+                    <th>Name</th>
+                    <th>Password</th>
+                    <th style="width: 20%;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>{{ user.user_id }}</td>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.name }}</td>
+                        <td>{{ user.password }}</td>
+                        <td>
+                            <div class="buttons" style="display: flex; flex-direction: row; justify-content: center;">
+                                <a href="{{ url_for('admin_users_edit', user_id=user.user_id) }}" class="btn btn-primary">Edit Details</a>
+                                <div class="button-spacer" style="width: 8px;"></div>
+                                <a href="{{ url_for('admin_users_delete', user_id=user.user_id) }}" class="btn btn-danger">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>        
+    <style>
+        .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        }
+        .table-bordered td{
+            text-align: center;
+            border: 3px solid #c3cdd7;
+        }
+        .table-bordered th{
+            text-align: center;
+            border: 3px solid #8893a2;
+        }
+    </style>
+{% endblock %}

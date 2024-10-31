@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}
+Book Info
+{% endblock %}
+
+{% block body %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+<div class="cont-container" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+    <div class="container" >
+        <div class="box" style="font-size: 60px; text-align: center;">{{ book.book_name }}</div>
+        <div class="spacer"></div>
+        <div class="return" style="justify-content: center;">
+            <a href="{{ url_for('view_section', section_id=book.section_id) }}" class="btn btn-danger">
+                <i class="fas fa-arrow-left"></i>
+                <span style="margin-left: 5px;">Back</span>
+            </a>
+        </div>
+    </div>
+    <div class="section-description mt-5" style="font-size: 25px; font-style: oblique; opacity: 0.7;">
+        <p>Author : {{ book.book_author }}</p>
+    </div>
+    <div class="section-description mt-2" style="font-size: 25px; font-style: oblique; opacity: 0.7;">
+        <p>Publisher : {{ book.book_publisher }}</p>
+    </div>
+</div>
+
+<div class="card-container " style="padding: 50px;">
+    <div class="feedback-title" style="font-size: 40px; text-align: left; margin-left: 15px;">
+        <p>Feedbacks</p>
+    </div>
+    <div class="feedback-body" style="border: 2px solid #ccc; border-radius: 20px; padding:20px;">
+        {% if feedbacks %}
+            {% for feedback in feedbacks %}
+                <div class="feedback-table" style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; padding:20px;">
+                    <div class="card">
+                        <div class="card-header" style="display: flex; justify-content: space-between; align-items: center; font-size: 20px;">
+                            <div>
+                                <i class="far fa-user" style="margin-right: 5px;"></i>
+                                <strong>{{ feedback.user.username }}</strong>
+                            </div>
+                            <div>
+                                <a href="{{ url_for('delete_feedback', feedback_id=feedback.feedback_id, book_id=book.book_id, section_id=book.section_id) }}" class="btn btn-danger">Delete</a>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="card-text">
+                                <div class="text" style="text-align: left; font-size: 20px;">
+                                    <p style="overflow: auto; max-height: 120px;">{{ feedback.content }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+        {% if not feedbacks %}
+            <div class="feedback-table" style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; padding:20px;">
+                <p style="font-size: 20px;">No Feedbacks Yet</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+
+<style>
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .card{
+        width: 100%;
+        height : auto;
+        border-radius: 20px;
+    }
+    .spacer {
+        width : 50px;
+    }
+    .button-spacer {
+        width : 20px;
+    }
+
+</style>
+{% endblock %}

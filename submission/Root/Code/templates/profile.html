@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}
+Profile
+{% endblock %}
+
+{% block body %}
+<div class="profile">
+    <div class="card">
+        <div class="card-header">
+            <h1>Profile</h1>
+        </div>
+        <div class="card-body">
+            <p style="font-size: 30px;">Username : {{ user.username }}</p>
+            <p style="font-size: 30px; margin-bottom: 20px;">Name : {{ user.name }}</p>
+        </div>
+        <div class="button-edits" style="display: flex; justify-content: center; margin-bottom: 40px;">
+            <form action="{{ url_for('edit_details')}}" method="GET">
+                <div class="button">
+                    <button type="submit" class="btn btn-success">Edit Details</button>
+                </div>
+            </form>
+            <div class="spacer" style="width: 30px;"></div>
+            <form action="{{ url_for('edit_password') }}" method="GET">
+                <div class="button">
+                    <button type="submit" class="btn btn-danger">Edit Password</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    .profile {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 10px; 
+        border: 2px solid #ccc; 
+        padding: 100px;
+    }
+    .card{
+        width: 800px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .card-header{
+        font-size: 40px;
+        text-align: center;
+        width: 100%;
+        margin-bottom: 20px;
+    }
+    .card-body{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+{% endblock %}

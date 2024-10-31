@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}
+Stats
+{% endblock %}
+
+{% block body %}
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <h1 style="text-align: center;">Statistics - {{user.username}}</h1>
+    <div class="chart-cont" style="padding: 50px;">
+        <div id="bar-chart" style="width: 50%;">
+            {{ completed_books_chart | safe }}
+        </div>
+        <div id="pie-chart" style="width: 50%;">
+            {{ book_status_pie_chart | safe }}
+        </div>
+    </div>
+    <style>
+        .chart-cont {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .chart {
+            width: calc(50% - 20px); /* Adjust width and spacing as needed */
+            margin: 10px; /* Adjust margin to create spacing between charts */
+        }
+    </style>
+{% endblock %}

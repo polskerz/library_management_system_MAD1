@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}
+List of Requests
+{% endblock %}
+
+{% block body %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+<div class="container">
+    <div class="box" style="font-size: 40px;"><h1>List of Requests</h1></div>
+    <div class="spacer" style="width : 50px;"></div>
+    <div class="box">
+        <a href="{{ url_for('issue_request') }}" class="btn btn-success">
+            <i class="fas fa-plus"></i>
+            <span style="margin-left: 5px;">Issue Request</span>
+        </a>
+    </div>
+</div>
+    <div class = "subcontainer" style="padding: 50px;">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Request ID</th>
+                    <th>Username</th>
+                    <th style="width: 20%;">Book Name</th>
+                    <th>Section Name</th>
+                    <th>Issue DateTime</th>
+                    <th>Due DateTime</th>
+                    <th>Return DateTime</th>
+                    <th>Revoke Status</th>
+                    <th style="width: 25%;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for request in requests %}
+                    <tr>
+                        <td>{{ request.request_id }}</td>
+                        <td>{{ request.user.username }}</td>
+                        <td>{{ request.book.book_name }}</td>
+                        <td>{{ request.section.section_id }}</td>
+                        <td>{{ request.issue_date|datetimeformat }}</td>
+                        <td>{{ request.due_date|datetimeformat }}</td>
+                        {% if request.return_date %}
+                            <td>{{ request.return_date|datetimeformat }}</td>
+                        {% else %}
+                            <td>N/A</td>
+                        {% endif %}
+                        <td>{{ request.is_revoked }}</td>
+                        <td>
+                            <div class="buttons" style="display: flex; flex-direction: row; justify-content: center;">
+                                <a href="{{ url_for('manual_revoke', request_id=request.request_id) }}" class="btn btn-primary">Revoke</a>
+                                <div class="button-spacer" style="width: 8px;"></div>
+                                <a href="{{ url_for('undo_manual_revoke', request_id=request.request_id) }}" class="btn btn-success">Undo Revoke</a>
+                                <div class="button-spacer" style="width: 8px;"></div>
+                                <a href="{{ url_for('delete_request', request_id=request.request_id) }}" class="btn btn-danger">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>        
+    <style>
+        .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        }
+        .table-bordered td{
+            text-align: center;
+            border: 3px solid #c3cdd7;
+        }
+        .table-bordered th{
+            text-align: center;
+            border: 3px solid #8893a2;
+        }
+    </style>
+{% endblock %}

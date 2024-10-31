@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}
+Stats
+{% endblock %}
+
+{% block body %}
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <h1 style="text-align: center;">Statistics - Codexify</h1>
+    <div class="chart-cont" style="padding: 50px;">
+        <!-- Bar chart for number of users vs number of admins -->
+        <div id="bar-chart" style="width: 50%;">
+            {{ bar_chart_html | safe }}
+        </div>
+        <!-- Pie chart for request status distribution -->
+        <div id="requests_pie_chart" style="width: 50%;">
+            {{ requests_pie_chart_html | safe }}
+        </div>
+        <!-- Bar chart for distribution of sections vs. books -->
+        <div id="section-books-chart" style="width: 50%;">
+            {{ section_books_chart_html | safe }}
+        </div>
+    </div>
+    <style>
+        .chart-cont {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .chart {
+            width: calc(50% - 20px); /* Adjust width and spacing as needed */
+            margin: 10px; /* Adjust margin to create spacing between charts */
+        }
+    </style>
+{% endblock %}

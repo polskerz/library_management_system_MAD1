@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}
+My Library
+{% endblock %}
+
+{% block body %}
+<div class="mstr-container">
+    <div class="cont-container" style="display: flex; flex-direction: column; justify-content: center; align-items: center; margin-top: 30px;">
+        <div class="container" >
+            <div class="box" style="font-size: 60px;">Overdue Books</div>
+        </div>
+    </div>
+
+    <div class="card-container mt-4">
+        {% if requests %}
+            {% for request in requests %}
+                {% if request.return_date is not none and request.is_revoked %}
+                    <div class="card">
+                        <div class="card-header" style="display: flex; justify-content: center; font-size: 40px;" >{{ request.book.book_name }}</div>
+                        <div class="card-body" style="position: relative;">
+                            <div class="card-text">
+                                <div class="mb-3" style="text-align: left; font-size: 20px; overflow: auto; max-height: 60px;">
+                                    <strong> Author </strong> : {{ request.book.book_author }} 
+                                </div>
+                                <div class="mb-3" style="text-align: left; font-size: 20px; overflow: auto; max-height: 60px;">
+                                    <strong> Publisher </strong> : {{ request.book.book_publisher }} 
+                                </div>
+                                <div class="mb-3" style="text-align: left; font-size: 20px; overflow: auto; height: 80px;">
+                                    <strong> Section </strong> : {{ request.section.section_name }} 
+                                </div>
+                            </div>
+                            <div class="buttons mb-3" style="display: flex; flex-direction: row; justify-content: center; align-items: center; position: absolute; bottom: 10px; left: 0; right: 0;">
+                                <div class="buttons">
+                                    <a class="btn btn-primary">Pay Fine</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            <div class="no-cont">
+                No Overdue Books 
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border:rgba(0, 0, 0, 0.2) 1px solid; 
+        border-radius: 20px; 
+    }
+    .card-container{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        overflow: auto; 
+
+    }
+    .card{
+        width: 400px;
+        height : auto;
+        margin: 20px;
+        border-radius: 20px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+    .no-cont{
+        
+        padding: 20px; 
+        display: flex; 
+        justify-content: center; 
+        font-size: 40px;
+    }
+
+</style>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}
+View Book
+{% endblock %}
+
+{% block body %}
+<div class="container" style="justify-content: row; align-items: center;">
+    <div class="book">
+        <object>
+        <iframe class="pdf" src="{{ book.book_content }}" width="auto" height="auto">
+        </iframe>
+        </object>
+    </div>
+    <div class="spacer" style="width: 10px;"></div>
+    <div class="return" >
+        <a href="{{ url_for('view_section', section_id=section.section_id) }}" class="btn btn-danger">
+            <i class="fas fa-arrow-left"></i>
+            <span style="margin-left: 5px;">Back</span>
+        </a>
+    </div>
+</div>
+<style>
+ .pdf {
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        overflow: auto;
+    }
+</style>
+{% endblock %}

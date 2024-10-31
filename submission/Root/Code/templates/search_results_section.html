@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block title %}
+Search Results
+{% endblock %}
+
+{% block body %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+{% if filter == "sections" %}
+    <div class="container">
+        <div class="box" style="font-size: 40px;">Search Results in Sections for "{{ search_query }}"</div>
+        <div class="spacer" style="width : 50px;"></div>
+        <div class="box">
+            <a href="{{ url_for('index') }}" class="btn btn-danger">
+                <i class="fas fa-arrow-left"></i>
+                <span style="margin-left: 5px;">Back</span>
+            </a>
+        </div>
+    </div>
+    <div class="search-subcontainer">
+        {% for section in search_sections %}
+            {% if section.books %}
+                <div class="card">
+                    <div class="card-header" style="font-size: 30px; display: flex; justify-content: space-between;" >
+                        <strong style="font-size: 35px;">{{ section.section_name }}</strong>
+                        <a href="{{ url_for('user_view_section', section_id=section.section_id) }}" class="btn"><span class="btn btn-danger">View</span></a>
+                    </div>
+                    <div class="card-body">
+                        {% for book in section.books[:3] %}
+                            <div class="slide">
+                                <div class="book-details-1" style="display: flex; flex-direction: column; justify-content: center; align-items: center; overflow-y: auto; height: 270px;"> 
+                                    <div class="book-name" style="font-size: 25px; margin-bottom: 5px;"><strong>{{ book.book_name }}</strong></div>
+                                </div>
+                                <div class="book-details-2" style="display: flex; flex-direction: column; justify-content: row; align-items: flex-start; overflow: auto; height: 100px;">
+                                    <div class="book-author" style="font-size: 15px; margin-bottom: 5px;">Author : {{ book.book_author }}</div>
+                                    <div class="book-publisher" style="font-size: 15px; opacity: 0.7; margin-bottom: 15px;">Publisher : {{ book.book_publisher }}</div>
+                                </div>
+                                <div class="buttons mt-4" style="display: flex; flex-direction: column; align-items: center;">
+                                    <div class="buttons">
+                                        <a href="{{ url_for('book_info', section_id=section.section_id, book_id=book.book_id) }}" class="btn btn-primary">See Info</a>
+                                    </div>
+                                    <div class="button-spacer" style="height : 10px;"></div>
+                                    <div class="buttons">
+                                        <a href="{{ url_for('request_confirmation', section_id=section.section_id, book_id=book.book_id) }}" class="btn btn-success">Request</a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        {% if section.books[3:] %}
+                            <div class="more" style="float: inline-end;">+ more</div>
+                        {% endif %}     
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endif %}
+
+
+<style>
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .search-subcontainer {
+        padding-left: 100px; 
+        padding-right: 100px; 
+        padding-bottom: 25px;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        justify-content: space-evenly;
+        height: auto;
+    }
+    .card {
+        border: 2px solid #ccc; /* Border style */
+        border-radius: 20px; /* Rounded corners */
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); 
+        padding: 5px; /* Padding inside the card */
+        width: 650px; /* Adjust width as needed */
+        margin: 30px; /* Margin between cards */
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-content: column;
+    }
+
+    .card-body {
+        display: flex;
+        justify-content: row;
+        align-content: center;
+        align-items: center;
+        height: auto;
+        position: relative;
+    }
+    .slide {
+        display: inline-block;
+        width: 180px;  /* Width of book */
+        height: auto;  /* Height of book */
+        border-radius: 10px;
+        padding: 20px;
+        border: 1px solid #ccc;
+        background-color: #f9f9f9;
+        margin-right: 25px;
+    }
+</style>
+{% endblock %}

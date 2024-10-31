@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block title %}
+View Section
+{% endblock %}
+
+{% block body %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+<div class="cont-container" style="display: flex; justify-content: center; align-items: center;">
+    <div class="container" >
+        <div class="box" style="font-size: 60px;">{{ section.section_name }}</div>
+        <div class="spacer"></div>
+        <div class="box">
+            <a href="{{ url_for('vs_add_book', section_id=section.section_id) }}" class="btn btn-primary">
+                <i class="fas fa-plus"></i>
+                <span style="margin-left: 5px;">Add Book</span>
+            </a>
+        </div>
+        <div class="spacer"></div>
+        <div class="return" style="justify-content: center;">
+            <a href="{{ url_for('admin') }}" class="btn btn-danger">
+                <i class="fas fa-arrow-left"></i>
+                <span style="margin-left: 5px;">Back</span>
+            </a>
+        </div>
+    </div> 
+</div>
+
+<div class="card-container mt-4">
+    {% if books %}
+        {% for book in books %}
+        <div class="card">
+            <div class="card-header" style="display: flex; justify-content: center; font-size: 30px;" >{{ book.book_name }}</div>
+            <div class="card-body" style="position: relative;">
+                <div class="card-text">
+                    <div class="mb-2" style="text-align: left; overflow: auto; max-height: 50px;">
+                        <strong> Author</strong> : {{ book.book_author }} 
+                    </div>
+                    <div class="mb-2" style="text-align: left; overflow: auto; max-height: 50px;">
+                        <strong> Publisher</strong> : {{ book.book_publisher }} 
+                    </div>
+                    <div class="mb-3" style="text-align: left; overflow: auto; height: 60px;">
+                        <strong> Date of Publication</strong> : {{ book.book_publish_date }} 
+                    </div>
+                </div>
+                <div class="buttons" style="display: flex; justify-content: center; position:absolute; bottom: 15px; left:0; right: 0;">
+                    <div class="buttons">
+                        <a href="{{ url_for('admin_book_info', section_id=section.section_id, book_id=book.book_id) }}" class="btn btn-primary">See Info</a>
+                    </div>
+                    <div class="button-spacer"></div>
+                    <div class="buttons">
+                        <a href="{{ url_for('view_book', section_id=section.section_id, book_id=book.book_id) }}" class="btn btn-success">View</a>
+                    </div>
+                    <div class="button-spacer"></div>
+                    <div class="buttons">
+                        <a href="{{ url_for('edit_book', section_id=section.section_id, book_id=book.book_id) }}" class="btn btn-warning">Edit</a>
+                    </div>
+                    <div class="button-spacer"></div>
+                    <div class="buttons">
+                    <a href="{{ url_for('delete_book', section_id=section.section_id, book_id=book.book_id) }}" class="btn btn-danger">Delete</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="no-cont">
+            <h1>No Books</h1>
+        </div>
+    {% endif %}
+</div>
+
+
+<style>
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .card-container{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        overflow: auto; 
+
+    }
+    .card{
+        width: 370px;
+        height : auto;
+        margin: 20px;
+        border-radius: 20px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+    .spacer {
+        width : 50px;
+    }
+    .button-spacer {
+        width : 20px;
+    }
+
+</style>
+{% endblock %}

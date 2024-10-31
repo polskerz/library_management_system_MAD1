@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+
+{% block title %}
+My Library
+{% endblock %}
+
+{% block body %}
+<div class="mstr-container">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <div class="cont-container" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+        <div class="container" >
+            <div class="box" style="font-size: 60px;">Current Books</div>
+        </div>
+    </div>
+
+    <div class="card-container mt-4">
+        {% if requests %}
+            {% for request in requests %}
+                {% if request.return_date == None %}
+                    {% if request.due_date > today %}
+                        <div class="card">
+                            <div class="card-header" style="display: flex; justify-content: center; font-size: 40px;" >{{ request.book.book_name }}</div>
+                            <div class="card-body">
+                                <div class="card-text">
+                                    <div class="mb-3" style="text-align: left; font-size: 20px;">
+                                        <strong> Author : {{ request.book.book_author }} </strong>
+                                    </div>
+                                    <div class="mb-3" style="text-align: left; font-size: 20px;">
+                                        <strong> Section : {{ request.section.section_name }} </strong>
+                                    </div>
+                                    <div class="mb-5" style="text-align: left; font-size: 20px;">
+                                        <strong> Publisher : {{ request.book.book_publisher }} </strong>
+                                    </div>
+                                </div>
+                                <div class="buttons mb-3" style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
+                                    <div class="buttons">
+                                        <a href="{{ url_for('read_book', request_id=request.request_id) }}" class="btn btn-primary">Read</a>
+                                    </div>
+                                    <div class="button-spacer" style="width : 30px;"></div>
+                                    <div class="buttons">
+                                        <a href="{{ url_for('return_confirmation', request_id=request.request_id) }}" class="btn btn-success">Return</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        {% if not requests %}
+            <div class="no-cont">
+                No Requests
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="cont-container" style="display: flex; flex-direction: column; justify-content: center; align-items: center; margin-top: 30px;">
+        <div class="container" >
+            <div class="box" style="font-size: 60px;">Completed Books</div>
+        </div>
+    </div>
+
+    <div class="card-container mt-4">
+        {% if unique_book_ids %}
+            {% for book_id in unique_book_ids %}
+                {% for request in requests %}
+                    {% if request.book.book_id == book_id %}
+                        {% if request.return_date != None %}
+                            {% if request.is_revoked == False %}
+                                <div class="card">
+                                    <div class="card-header" style="display: flex; justify-content: center; font-size: 40px;" >{{ request.book.book_name }}</div>
+                                    <div class="card-body">
+                                        <div class="card-text">
+                                            <div class="mb-3" style="text-align: left; font-size: 20px;">
+                                                <strong> Author : {{ request.book.book_author }} </strong>
+                                            </div>
+                                            <div class="mb-3" style="text-align: left; font-size: 20px;">
+                                                <strong> Section : {{ request.section.section_name }} </strong>
+                                            </div>
+                                            <div class="mb-5" style="text-align: left; font-size: 20px;">
+                                                <strong> Publisher : {{ request.book.book_publisher }} </strong>
+                                            </div>
+                                        </div>
+                                        <div class="buttons mb-3" style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
+                                            <div class="buttons">
+                                                <a href="{{ url_for('book_info', section_id=request.section.section_id, book_id=request.book.book_id) }}" class="btn btn-primary">See Info</a>
+                                            </div>
+                                            <div class="button-spacer" style="width : 30px;"></div>
+                                            <div class="buttons">
+                                                <a href="{{ url_for('request_confirmation', section_id=request.section.section_id, book_id=request.book.book_id) }}" class="btn btn-success">Request Again</a>
+                                            </div>
+                                            <div class="button-spacer" style="width : 30px;"></div>
+                                            <div class="buttons">
+                                                <a href="{{ url_for('write_feedback', book_id=request.book.book_id) }}" class="btn btn-danger">Write Feedback</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+            
+        {% else %}
+            <div class="no-cont">
+                No Completed Books Yet
+            </div>
+        {% endif %}
+    </div>
+</div>
+<style>
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border:rgba(0, 0, 0, 0.2) 1px solid; 
+        border-radius: 20px; 
+    }
+    .card-container{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        overflow: auto; 
+
+    }
+    .card{
+        width: 400px;
+        height : 400px;
+        margin: 20px;
+        border-radius: 20px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+    .no-cont{
+        
+        padding: 20px; 
+        display: flex; 
+        justify-content: center; 
+        font-size: 40px;
+    }
+
+</style>
+{% endblock %}

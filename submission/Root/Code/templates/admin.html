@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block title %}
+Admin 
+{% endblock %}
+
+{% block body %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+<div class="container">
+    <div class="box" style="font-size: 60px;">Admin Dashboard</div>
+    <div class="spacer" style="width : 50px;"></div>
+    <div class="box">
+        <a href="{{ url_for('add_section') }}" class="btn btn-primary">
+            <i class="fas fa-plus"></i>
+            <span style="margin-left: 5px;">Add Section</span>
+        </a>
+    </div>
+</div>
+
+<div class="card-container mt-4">
+    {% for section in sections %}
+    <div class="card">
+        <div class="card-header" >{{ section.section_name }}</div>
+        <div class="card-body" style="position: relative;">
+            <div class="card-text">
+                <div class="mb-3" style="text-align: center;">
+                    <strong>Created on : {{ section.date_created }} </strong>
+                </div>
+                <div class="mb-5" style="text-align: center; font-size: 20px; overflow: auto; height: 100px;">
+                    {{ section.description }}
+                </div>
+            </div>
+            
+            <div class="buttons" style="display: flex; justify-content: center; position: absolute; bottom: 10px; left: 0; right: 0;">
+                <div class="buttons">
+                    <a href="{{ url_for('view_section', section_id=section.section_id) }}" class="btn btn-primary">View</a>
+                </div>
+                <div class="button-spacer"></div>
+                <div class="buttons">
+                    <a href="{{ url_for('edit_section', section_id=section.section_id) }}" class="btn btn-warning">Edit</a>
+                </div>
+                <div class="button-spacer"></div>
+                <div class="buttons">
+                <a href="{{ url_for('add_book', section_id=section.section_id) }}" class="btn btn-success">Add Book</a>
+                </div>
+                <div class="button-spacer"></div>
+                <div class="buttons">
+                <a href="{{ url_for('delete_section', section_id=section.section_id) }}" class="btn btn-danger">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<div spacer style="height: 35px;"></div>
+
+
+<style>
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .card-container{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content:center;
+        align-items: column;
+        padding: 10px;
+    }
+    .spacer {
+        width : 50px;
+    }
+    .button-spacer {
+        width : 20px;
+    }
+    .card {
+        border: 2px solid #ccc; /* Border style */
+        border-radius: 20px; /* Rounded corners */
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); 
+        padding: 5px; /* Padding inside the card */
+        width: 400px; /* Adjust width as needed */
+        margin: 10px; /* Margin between cards */
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    .card-header{
+        font-size: 40px;
+        text-align: center;
+    }
+
+
+</style>
+{% endblock %}
