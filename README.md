@@ -1,6 +1,6 @@
 # CODEXIFY - Online Library Management System
 
-Codexify is a system designed to facilitate the management of library resources and user accounts through a web-based platform.
+Codexify is a system designed to facilitate the management of library resources and user accounts through a web-based platform. This project has been made as part of my Modern Application Development (MAD-1) Project for IIT Madras BS degree in Data Science.
 
 
 ## Features
